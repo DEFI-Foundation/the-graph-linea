@@ -1,0 +1,35 @@
+specVersion: 0.0.5
+repository: https://github.com/DEFI-Foundation/the-graph-linea
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: wbtc_usdc
+    network: mainnet
+    source:
+      address: "0x71a6C46904A0467Ef12c9b7eFF39aFC4b27eE865"
+      abi: swap_wbtc_usdc
+      startBlock: 870656
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ClosedSwap
+        - CreatedSwap
+        - ExecutedSwap
+        - LiquidatedSwap
+      abis:
+        - name: swap_wbtc_usdc
+          file: ./abi/swap_wbtc_usdc.json
+      eventHandlers:
+        - event: ClosedSwap(indexed uint256,indexed address,uint256,uint256,uint256,uint256)
+          handler: handleClosedSwap
+        - event: CreatedSwap(indexed uint256,indexed address,uint8,uint256,uint256,uint256)
+          handler: handleCreatedSwap
+        - event: ExecutedSwap(indexed uint256,indexed address,indexed
+            address,uint256,uint256,uint256)
+          handler: handleExecutedSwap
+        - event: LiquidatedSwap(indexed uint256,indexed address,indexed address,uint256)
+          handler: handleLiquidatedSwap
+      file: ./src/wbtc-usdc.ts

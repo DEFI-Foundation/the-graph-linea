@@ -1,0 +1,1790 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "_erc20Asset",
+				"type": "address"
+			},
+			{
+				"internalType": "contract MetalSwapPoolAbstract",
+				"name": "_poolAsset",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_nrOfAssetDecimals",
+				"type": "uint256"
+			},
+			{
+				"internalType": "contract ERC20",
+				"name": "_erc20Currency",
+				"type": "address"
+			},
+			{
+				"internalType": "contract MetalSwapPoolAbstract",
+				"name": "_poolCurrency",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_nrOfCurrencyDecimals",
+				"type": "uint256"
+			},
+			{
+				"internalType": "contract IPriceProvider",
+				"name": "pp",
+				"type": "address"
+			},
+			{
+				"internalType": "contract ERC20",
+				"name": "_governanceToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "governanceAddr",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_financialSwapManager",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newCoverX100",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newThreshold",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "addedCoverTime",
+				"type": "uint256"
+			}
+		],
+		"name": "AddedCoverToSwap",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "profit",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "remainingCover",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "closingTime",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "expirePrice",
+				"type": "uint256"
+			}
+		],
+		"name": "ClosedSwap",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapType",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "threshold",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "executionTime",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "creationBlock",
+				"type": "uint256"
+			}
+		],
+		"name": "CreatedSwap",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "decommissionAsset",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "decommissionBalance",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "decommissionBeneficiary",
+				"type": "address"
+			}
+		],
+		"name": "DecommissionSC",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "liquidator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "profit",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "remainingCover",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "expirePrice",
+				"type": "uint256"
+			}
+		],
+		"name": "ExecutedSwap",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_marginFactorAsset",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_marginFactorCurrency",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_settlementFeeContainer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_premiumAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_governanceTokenRewardTreasury",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_rateReward",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_descriptionTOU",
+				"type": "string"
+			}
+		],
+		"name": "FinalizeContract",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "liquidator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "liquidationTime",
+				"type": "uint256"
+			}
+		],
+		"name": "LiquidatedSwap",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_governanceToken",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_governanceTokenRewardTreasury",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_settlementFeePerc",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address payable",
+				"name": "_settlementFeeContainer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_PRICE_DECIMALS",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_priceProvider",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "rateReward",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_rateRewardOP",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_newRewardManager",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_financialSwapManage",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_descriptionTOU",
+				"type": "string"
+			}
+		],
+		"name": "SetMainSwapParameters",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "poolCurrency",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "poolAsset",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "settlementFeeManager",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "premiumAddress",
+				"type": "address"
+			}
+		],
+		"name": "SetOperatingAllowance",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "priceProvider",
+				"type": "address"
+			}
+		],
+		"name": "SetPriceProvider",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "state",
+				"type": "bool"
+			}
+		],
+		"name": "SetStateSC",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_minTimeSwap",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "_limitActive",
+				"type": "bool"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_limitSwap",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "coverX100Min",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "targetSizeAsset",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "targetSizeMinCurrency",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint16",
+				"name": "_safetyMarginX100",
+				"type": "uint16"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_marginFactorAsset",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_marginFactorCurrency",
+				"type": "uint256"
+			}
+		],
+		"name": "SetSwapSafetyParameters",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "newGovernace",
+				"type": "address"
+			}
+		],
+		"name": "TransferGovernance",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "PRICE_DECIMALS",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "swapID",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "newCoverX100",
+				"type": "uint16"
+			}
+		],
+		"name": "addCover",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "assetDecimals",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "targetSize",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "coverX100",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "newCoverX100",
+				"type": "uint256"
+			}
+		],
+		"name": "calcCoverToAdd",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "coverToAdd",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "targetSize",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "profit",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "loss",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "cover",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "executionTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "currentPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "calcPenalties",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "penalties",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "currentPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "initPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "targetSize",
+				"type": "uint256"
+			}
+		],
+		"name": "calcProfitLoss",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "profit",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "loss",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "rewardAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "initTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "executionTime",
+				"type": "uint256"
+			}
+		],
+		"name": "calcRewardPenalties",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "rewardPenalties",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "swapID",
+				"type": "uint256"
+			}
+		],
+		"name": "closeSwap",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "contractCreationTimestamp",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "coverX100Min",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "period",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "targetSize",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "coverX100",
+				"type": "uint16"
+			},
+			{
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapType",
+				"type": "uint8"
+			}
+		],
+		"name": "createSwap",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "swapID",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "currencyDecimals",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract ERC20[]",
+				"name": "assetsToWithdraw",
+				"type": "address[]"
+			}
+		],
+		"name": "decommissionSC",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "descriptionTOU",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "erc20Asset",
+		"outputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "erc20Currency",
+		"outputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "swapID",
+				"type": "uint256"
+			}
+		],
+		"name": "executeSwap",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_marginFactorAsset",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_marginFactorCurrency",
+				"type": "uint256"
+			},
+			{
+				"internalType": "contract SettlementFeeManager",
+				"name": "_settlementFeeContainer",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_rewardManager",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_premiumAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_governanceTokenRewardTreasury",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_rateReward",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_descriptionTOU",
+				"type": "string"
+			}
+		],
+		"name": "finalizeContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "financialSwapManager",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_inputAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_nrOfDecimalsIn",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_nrOfDecimalsOut",
+				"type": "uint256"
+			}
+		],
+		"name": "formatAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "outputAmount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNrOfSwaps",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "swapNumber",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "periodFee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapType",
+				"type": "uint8"
+			}
+		],
+		"name": "getReward",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "reward",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "periodFee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapType",
+				"type": "uint8"
+			}
+		],
+		"name": "getRewardOP",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "reward",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getSwapAvgsAndPoolAvailabilities",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "avgAsset",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "avgCurrency",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "poolAssetAvailability",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "poolCurrencyAvailability",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "period",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "targetSize",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapType",
+				"type": "uint8"
+			}
+		],
+		"name": "getSwapFeesAndReward",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "fees",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "reward",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "settlementFee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "periodFee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "cover",
+				"type": "uint256"
+			}
+		],
+		"name": "getTotalToSpend",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "governance",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "governanceToken",
+		"outputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "governanceTokenRewardTreasury",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "limitActive",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "limitSwap",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "swapID",
+				"type": "uint256"
+			}
+		],
+		"name": "marginCall",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "marginFactorAsset",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "marginFactorCurrency",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "minTimeSwap",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "mult6",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "paused",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "poolAsset",
+		"outputs": [
+			{
+				"internalType": "contract MetalSwapPoolAbstract",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "poolCurrency",
+		"outputs": [
+			{
+				"internalType": "contract MetalSwapPoolAbstract",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "premiumAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "priceProvider",
+		"outputs": [
+			{
+				"internalType": "contract IPriceProvider",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rateReward",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rateRewardOP",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rewardManager",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "safetyMarginX100",
+		"outputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_governanceToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_governanceTokenRewardTreasury",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_settlementFeePerc",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_settlementFeeContainer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_PRICE_DECIMALS",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_priceProvider",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_rateReward",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_rateRewardOP",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_newRewardManager",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_financialSwapManager",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_descriptionTOU",
+				"type": "string"
+			}
+		],
+		"name": "setMainSwapParameters",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setOperatingAllowance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_priceProvider",
+				"type": "address"
+			}
+		],
+		"name": "setPriceProvider",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "state",
+				"type": "bool"
+			}
+		],
+		"name": "setStateSC",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_minTimeSwap",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "_limitActive",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_limitSwap",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_coverX100Min",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_targetSizeMinAsset",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_targetSizeMinCurrency",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_safetyMarginX100",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_marginFactorAsset",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_marginFactorCurrency",
+				"type": "uint256"
+			}
+		],
+		"name": "setSwapSafetyParameters",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "settlementFeeManager",
+		"outputs": [
+			{
+				"internalType": "contract SettlementFeeManager",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "settlementFeePerc",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "swapAvgAsset",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "swapAvgCurrency",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "swaps",
+		"outputs": [
+			{
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "enum MetalSwapAbstract.State",
+				"name": "state",
+				"type": "uint8"
+			},
+			{
+				"internalType": "address payable",
+				"name": "holder",
+				"type": "address"
+			},
+			{
+				"internalType": "uint16",
+				"name": "coverX100",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "initPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "targetSize",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "threshold",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "periodFee",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "initTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "executionTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "rewardAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "rewardOP",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "swapsByUser",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "targetSizeMinAsset",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "targetSizeMinCurrency",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_governance",
+				"type": "address"
+			}
+		],
+		"name": "transferGovernance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "targetSize",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum MetalSwapAbstract.SwapType",
+				"name": "swapDirection",
+				"type": "uint8"
+			}
+		],
+		"name": "verifySwapPermission",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "swapPermission",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

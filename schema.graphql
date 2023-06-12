@@ -1,0 +1,57 @@
+type ClosedSwap @entity(immutable: true) {
+  id: Bytes!
+  contractAddress: Bytes!
+  network: String!
+  swap_id: BigInt! # uint256
+  creator: Bytes! # address
+  profit: BigInt! # uint256
+  remainingCover: BigInt! # uint256
+  closingTime: BigInt! # uint256
+  expirePrice: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type CreatedSwap @entity(immutable: true) {
+  id: Bytes!
+  contractAddress: Bytes!
+  network: String!
+  swap_id: BigInt!
+  creator: Bytes!
+  swapType: Int!
+  threshold: BigInt!
+  executionTime: BigInt!
+  creationBlock: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ExecutedSwap @entity(immutable: true) {
+  id: Bytes!
+  contractAddress: Bytes!
+  network: String!
+  swap_id: BigInt!
+  creator: Bytes!
+  liquidator: Bytes!
+  profit: BigInt!
+  remainingCover: BigInt!
+  expirePrice: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LiquidatedSwap @entity(immutable: true) {
+  id: Bytes!
+  contractAddress: Bytes!
+  network: String!
+  swap_id: BigInt!
+  creator: Bytes!
+  liquidator: Bytes!
+  liquidationTime: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
